@@ -1,9 +1,5 @@
 package pe.edu.pucp.customerserviceapp;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,8 +9,13 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -22,36 +23,43 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+
+import pe.edu.pucp.customerserviceapp.clases.UsuarioManager;
 
 public class MainActivity extends AppCompatActivity {
     private static final int LOGIN_FIREBASE = 1;
+
+    private Button buttonInicio;
+    private ProgressBar progress;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
+        TextView fireText = findViewById(R.id.textTitle);
+        ImageView logo = findViewById(R.id.imgLogo);
+        buttonInicio = findViewById(R.id.buttonIniciaSesion);
+        progress = findViewById(R.id.progressBar_inicio);
+        buttonInicio.setVisibility(View.GONE);
+        progress.setVisibility(View.VISIBLE);
 
 
         validacionUsuario();
 
-        Animation animacionArriba = AnimationUtils.loadAnimation(this,R.anim.up_animation);
-        Animation animacionAbajo = AnimationUtils.loadAnimation(this,R.anim.down_animation);
+        Animation animacionAbajo = AnimationUtils.loadAnimation(this, R.anim.down_animation);
 
-        TextView fireText = findViewById(R.id.textTitle);
-        Button buttonInicio =findViewById(R.id.buttonIniciaSesion);
-        ImageView logo = findViewById(R.id.imgLogo);
         fireText.setAnimation(animacionAbajo);
-        buttonInicio.setAnimation(animacionArriba);
         logo.setAnimation(animacionAbajo);
+
 
     }
 
-
     public void login(View view) {
-        List<AuthUI.IdpConfig> proveedores = Arrays.asList(
+        List<AuthUI.IdpConfig> proveedores = Collections.singletonList(
                 new AuthUI.IdpConfig.EmailBuilder().build()
         );
 
@@ -76,22 +84,23 @@ public class MainActivity extends AppCompatActivity {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         if (currentUser != null) {
+            buttonInicio.setVisibility(View.GONE);
+            progress.setVisibility(View.VISIBLE);
             if (currentUser.isEmailVerified()) {
-                Toast.makeText(MainActivity.this, "Su cuenta está verificada", Toast.LENGTH_LONG).show();
-//                openFilesAct();
+                UsuarioManager.openUserMenu(MainActivity.this);
             } else {
                 currentUser.reload().addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (currentUser.isEmailVerified()) {
-                            Toast.makeText(MainActivity.this, "Su cuenta está verificada", Toast.LENGTH_LONG).show();
-
-//                            openFilesAct();
+                            UsuarioManager.openUserMenu(MainActivity.this);
                         } else {
                             Toast.makeText(MainActivity.this, "Se le envió un correo para verificar su cuenta", Toast.LENGTH_LONG).show();
                             currentUser.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
+                                    buttonInicio.setVisibility(View.VISIBLE);
+                                    progress.setVisibility(View.INVISIBLE);
                                     Log.d("debugeo", "Correo Enviado");
                                 }
                             });
@@ -99,31 +108,10 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
             }
+        } else {
+            buttonInicio.setVisibility(View.VISIBLE);
+            progress.setVisibility(View.INVISIBLE);
         }
-
-
     }
 
-//    public void openFilesAct() {
-//        FirebaseFirestore db = FirebaseFirestore.getInstance();
-//        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-//        DocumentReference docRef = db.collection("users").document(currentUser.getUid());
-//        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                if (task.isSuccessful()) {
-//                    DocumentSnapshot document = task.getResult();
-//                    if (!document.exists()) {
-//                        Users user = new Users(currentUser.getDisplayName(),"Free",26214400,0); //26214400 - 25MB
-//                        docRef.set(user);
-//                    }
-//                } else {
-//                    Log.d("debugeo", "get failed with ", task.getException());
-//                }
-//            }
-//        });
-//        startActivity(new Intent(MainActivity.this, FilesActivity.class));
-//        finish();
-//
-//    }
 }

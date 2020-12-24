@@ -12,13 +12,15 @@
         style="@style/miBoton"
         android:layout_width="156dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="132dp"
+        android:layout_marginBottom="84dp"
         android:gravity="center"
         android:onClick="login"
-        android:text="Inicia Sesión"
+        android:text="Iniciar Sesión"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="@+id/imgLogo"
+        app:layout_constraintHorizontal_bias="0.505"
+        app:layout_constraintStart_toStartOf="@+id/imgLogo" />
 
     <TextView
         android:id="@+id/textTitle"
@@ -40,10 +42,20 @@
         android:id="@+id/imgLogo"
         android:layout_width="324dp"
         android:layout_height="403dp"
-        android:layout_marginBottom="24dp"
-        app:layout_constraintBottom_toTopOf="@+id/buttonIniciaSesion"
-        app:layout_constraintEnd_toEndOf="@+id/buttonIniciaSesion"
-        app:layout_constraintStart_toStartOf="@+id/buttonIniciaSesion"
+        app:layout_constraintBottom_toTopOf="@+id/progressBar_inicio"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.803" />
+        app:layout_constraintVertical_bias="0.538" />
+
+    <ProgressBar
+        android:id="@+id/progressBar_inicio"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="84dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/imgLogo"
+        app:layout_constraintStart_toStartOf="@+id/imgLogo" />
 </androidx.constraintlayout.widget.ConstraintLayout>
