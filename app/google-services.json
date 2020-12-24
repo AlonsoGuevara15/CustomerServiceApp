@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "410135109248",
+    "firebase_url": "https://customerservice-e62f6-default-rtdb.firebaseio.com",
+    "project_id": "customerservice-e62f6",
+    "storage_bucket": "customerservice-e62f6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:410135109248:android:8eca9e4a5667840de31065",
+        "android_client_info": {
+          "package_name": "pe.edu.pucp.customerserviceapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "410135109248-1fogvs4sc9e6bk25uor0lckjr7hgk1t1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJpeLZzEH8WW-pJue2OSI8TShT-MNgqg0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "410135109248-1fogvs4sc9e6bk25uor0lckjr7hgk1t1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
