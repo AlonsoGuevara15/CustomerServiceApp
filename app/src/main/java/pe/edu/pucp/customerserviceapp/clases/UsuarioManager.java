@@ -22,10 +22,10 @@ import pe.edu.pucp.customerserviceapp.client.ClientActivity;
 import pe.edu.pucp.customerserviceapp.employee.EmployeeActivity;
 
 public class UsuarioManager {
-    public static final int ROLE_PENDING = 1;
-    public static final int ROLE_CLIENT = 2;
-    public static final int ROLE_EMPLOYEE = 3;
-    public static final int ROLE_ADMIN = 4;
+    public static final String ROLE_PENDING = "pendiente";
+    public static final String ROLE_CLIENT = "cliente";
+    public static final String ROLE_EMPLOYEE = "empleado";
+    public static final String ROLE_ADMIN = "admin";
 
     public static void openUserMenu(Activity activity) {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -38,11 +38,11 @@ public class UsuarioManager {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (!document.exists()) {
-                        Usuario user = new Usuario(currentUser.getUid(), currentUser.getDisplayName());
+                        Usuario user = new Usuario(currentUser.getUid(), currentUser.getDisplayName(),currentUser.getEmail());
                         docRef.set(user);
                         activity.startActivity(new Intent(activity, ClientActivity.class));
                     } else {
-                        int rol = document.get("rol", Integer.class);
+                        String rol = (String) document.get("rol");
                         switch (rol) {
                             case ROLE_EMPLOYEE:
                                 activity.startActivity(new Intent(activity, EmployeeActivity.class));

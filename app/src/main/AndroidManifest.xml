@@ -17,7 +17,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".client.ClientActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait">

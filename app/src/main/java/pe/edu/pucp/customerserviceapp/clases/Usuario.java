@@ -5,17 +5,15 @@ import java.io.Serializable;
 public class Usuario implements Serializable {
     private String uid = "";
     private String nombre = "";
-    private int rol = UsuarioManager.ROLE_CLIENT; // Por defecto, será rol cliente
+    private String rol = UsuarioManager.ROLE_CLIENT; // Por defecto, será rol cliente
+    private String correo;
+    private String currently="idle";
+    private String chatWith="";
 
-    public Usuario(String uid, String nombre, int rol) {
+    public Usuario(String uid, String nombre, String correo) {
         this.uid = uid;
         this.nombre = nombre;
-        this.rol = rol;
-    }
-
-    public Usuario(String uid, String nombre) {
-        this.uid = uid;
-        this.nombre = nombre;
+        this.correo = correo;
     }
 
     public Usuario() {
@@ -29,11 +27,11 @@ public class Usuario implements Serializable {
         this.nombre = nombre;
     }
 
-    public int getRol() {
+    public String getRol() {
         return rol;
     }
 
-    public void setRol(int rol) {
+    public void setRol(String rol) {
         this.rol = rol;
     }
 
@@ -43,5 +41,29 @@ public class Usuario implements Serializable {
 
     public void setUid(String uid) {
         this.uid = uid;
+    }
+
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
+
+    public String getCurrently() {
+        return currently;
+    }
+
+    public void setCurrently(String currently) {
+        this.currently = currently;
+    }
+
+    public String getChatWith() {
+        return chatWith;
+    }
+
+    public void setChatWith(String chatWith) {
+        this.chatWith = chatWith;
     }
 }
