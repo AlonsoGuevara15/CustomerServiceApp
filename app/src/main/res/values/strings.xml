@@ -7,4 +7,5 @@
     <string name="cancelar">
         Cancelar solicitud
     </string>
+    <string name="escriba_un_mensaje_aqu">Escriba un mensaje aquí...</string>
 </resources>

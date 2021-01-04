@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class Usuario implements Serializable {
     private String uid = "";
     private String nombre = "";
-    private String rol = UsuarioManager.ROLE_CLIENT; // Por defecto, será rol cliente
+    private String rol = UsuarioManager.ROLE_STUDENT; // Por defecto, será rol cliente
     private String correo;
     private String currently="idle";
     private String chatWith="";

@@ -4,18 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".client.ClientActivity">
+    tools:context=".aitel.AitelActivity">
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        android:text="Bienvenido Cliente"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="48dp"
+        android:text="Bienvenido Empleado"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/info"
         android:layout_width="wrap_content"
@@ -29,27 +28,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/upgrade"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:backgroundTint="#C27DCD"
-        app:fabSize="mini"
-        app:layout_constraintEnd_toEndOf="@+id/info"
-        app:layout_constraintStart_toStartOf="@+id/info"
-        app:layout_constraintTop_toBottomOf="@+id/info"
-        app:srcCompat="@drawable/ic_upgrade" />
-    <TextView
-        android:id="@+id/upgrade_action_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:text="Soy empleado"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/upgrade"
-        app:layout_constraintEnd_toStartOf="@+id/upgrade"
-        app:layout_constraintTop_toTopOf="@+id/upgrade" />
 
     <!--Floating action button for add person-->
     <!--Make sure that you are constraining this
@@ -61,9 +39,9 @@
         android:layout_marginTop="16dp"
         app:backgroundTint="#C27DCD"
         app:fabSize="mini"
-        app:layout_constraintEnd_toEndOf="@+id/upgrade"
-        app:layout_constraintStart_toStartOf="@+id/upgrade"
-        app:layout_constraintTop_toBottomOf="@+id/upgrade"
+        app:layout_constraintEnd_toEndOf="@+id/info"
+        app:layout_constraintStart_toStartOf="@+id/info"
+        app:layout_constraintTop_toBottomOf="@+id/info"
         app:srcCompat="@drawable/ic_logout" />
 
     <!--Action name text for the add person button-->
@@ -74,15 +52,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
+        android:background="#FFFFFF"
         android:text="Cerrar Sesión"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/logout"
         app:layout_constraintEnd_toStartOf="@+id/logout"
         app:layout_constraintTop_toTopOf="@+id/logout" />
-
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/fragmentclient"
-        android:layout_width="313dp"
+        android:id="@+id/fragmentAitel"
+        android:layout_width="match_parent"
         android:layout_height="439dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -90,6 +68,5 @@
         app:layout_constraintTop_toTopOf="parent">
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

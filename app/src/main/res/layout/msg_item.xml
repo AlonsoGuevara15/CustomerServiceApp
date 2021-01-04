@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/textMessageIN"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintWidth_max="300dp"
+        android:background="@drawable/shape_msg_in"
+        android:padding="8dp"
+        android:text="hi man, how are you?"
+        android:textColor="#ffffff"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0" />
+
+    <TextView
+        android:id="@+id/fechaIN"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.05"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintTop_toBottomOf="@+id/textMessageIN"/>
+
+    <TextView
+        android:id="@+id/textMessageOUT"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_msg_out"
+        android:padding="8dp"
+        android:text="hi man,hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?v
+         how are you?"
+        android:textColor="#ffffff"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintWidth_max="300dp" />
+
+    <TextView
+        android:id="@+id/fechaOUT"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textMessageOUT" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

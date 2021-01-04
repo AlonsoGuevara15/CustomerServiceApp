@@ -30,6 +30,7 @@ import pe.edu.pucp.customerserviceapp.clases.UsuarioManager;
 
 public class MainActivity extends AppCompatActivity {
     private static final int LOGIN_FIREBASE = 1;
+    private static final String TAG = "debugeo";
 
     private Button buttonInicio;
     private ProgressBar progress;

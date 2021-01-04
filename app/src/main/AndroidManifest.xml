@@ -13,10 +13,10 @@
             android:name=".admin.AdminActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".employee.EmployeeActivity"
+            android:name=".aitel.AitelActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".client.ClientActivity"
+            android:name=".student.StudentActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".MainActivity"

@@ -4,14 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import pe.edu.pucp.customerserviceapp.R;
 import pe.edu.pucp.customerserviceapp.clases.UsuarioManager;
-import pe.edu.pucp.customerserviceapp.client.ClientActivity;
 
 public class AdminActivity extends AppCompatActivity {
     // Make sure to use the FloatingActionButton
