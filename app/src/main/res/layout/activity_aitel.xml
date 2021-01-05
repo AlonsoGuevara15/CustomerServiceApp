@@ -4,23 +4,95 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#7400BA"
     tools:context=".aitel.AitelActivity">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerusersAitel"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="5dp"
+        android:background="#FFFFFF"
+        android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView22"
+        app:layout_constraintVertical_bias="1" />
+
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/textView22"
+        android:layout_width="276dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Puedes comunicarte con los siguientes usuarios:"
+        android:textColor="#D6D6D6"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textRol2" />
+
+    <TextView
+        android:id="@+id/textRol2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="48dp"
-        android:text="Bienvenido Empleado"
+        android:background="#CBD8D8D8"
+        android:text="-AITEL"
+        android:textColor="#1D0A39"
+        app:layout_constraintEnd_toEndOf="@+id/textprofileAITEL"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="@+id/textprofileAITEL"
+        app:layout_constraintTop_toBottomOf="@+id/textprofileAITEL" />
+    <TextView
+        android:id="@+id/textprofileAITEL"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="24dp"
+        android:text="Bienvenido Cliente"
+        android:textColor="#F8F8F8"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/info"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/fragmentAitel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FFFFFF"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="128dp"
+            android:layout_height="125dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="20dp"
         android:src="@drawable/ic_info"
         app:backgroundTint="#D8B0DF"
@@ -58,15 +130,6 @@
         app:layout_constraintBottom_toBottomOf="@+id/logout"
         app:layout_constraintEnd_toStartOf="@+id/logout"
         app:layout_constraintTop_toTopOf="@+id/logout" />
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/fragmentAitel"
-        android:layout_width="match_parent"
-        android:layout_height="439dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

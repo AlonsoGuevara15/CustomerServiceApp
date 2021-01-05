@@ -3,37 +3,44 @@ package pe.edu.pucp.customerserviceapp.aitel;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.content.Context;
+import android.Manifest;
 import android.content.Intent;
-import android.os.Build;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentChange;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
 
+import java.io.File;
 import java.util.ArrayList;
 
-import pe.edu.pucp.customerserviceapp.ChatFragment;
 import pe.edu.pucp.customerserviceapp.MainActivity;
 import pe.edu.pucp.customerserviceapp.R;
-import pe.edu.pucp.customerserviceapp.clases.Chat;
+import pe.edu.pucp.customerserviceapp.UsersRecycler;
 import pe.edu.pucp.customerserviceapp.clases.Usuario;
 import pe.edu.pucp.customerserviceapp.clases.UsuarioManager;
 import pe.edu.pucp.customerserviceapp.student.StudentActivity;
@@ -43,6 +50,15 @@ public class AitelActivity extends AppCompatActivity {
     private static final String NOTIFCHANNEL = "newmsg";
     private static final String TAG = "debugeo";
     private static int CHATNUMBER = 1;
+    private static String RUTAFIRE;
+    private static String IMAGELOCAL;
+    private static Usuario OTROUSUARIO = new Usuario();
+    private static final int GETIMAGE = 10;
+    private static final int CAMERA_PERMISSION = 3;
+    private static final int Download_PERMISSION = 4;
+    private ProgressBar PBCHATIMAGEDownload;
+    private ProgressBar PBCHATIMAGE;
+
 
     // Make sure to use the FloatingActionButton
     // for all the FABs
@@ -62,72 +78,39 @@ public class AitelActivity extends AppCompatActivity {
 
 
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        NotificationManager notificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-
-            NotificationChannel notificationChannel = new NotificationChannel(
-                    NOTIFCHANNEL,
-                    "Notificaciones de Chat",
-                    NotificationManager.IMPORTANCE_HIGH
-            );
-            notificationChannel.setDescription("Notificaciones de nuevo mensaje recibido");
-            notificationManager.createNotificationChannel(notificationChannel);
-        }
-
 
         if (currentUser != null) {
-            UsuarioManager.openPrivateChat(new Usuario("NzTAXz8aNccZ6ToXsT5ngvfz3qi2", "STUDENT PRUEBA", ""), AitelActivity.this, R.id.fragmentAitel);
             FirebaseFirestore db = FirebaseFirestore.getInstance();
-            db.collection("chats")
-                    .whereEqualTo("receiverId", currentUser.getUid()).whereEqualTo("readbyreceiver", false)
-                    .addSnapshotListener(new EventListener<QuerySnapshot>() {
+            ArrayList<Usuario> lista = new ArrayList<>();
+            Log.d(TAG, "EMPIEZA A BUSCAR");
+            db.collection("users")
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
-                        public void onEvent(@Nullable QuerySnapshot snapshots, @Nullable FirebaseFirestoreException e) {
-                            if (e != null) {
-                                Log.w(TAG, "listen:error", e);
-                                return;
-                            }
-                            //mgghermoza@gmail.com
-                            for (DocumentChange dc : snapshots.getDocumentChanges()) {
-                                switch (dc.getType()) {
-                                    case ADDED:
-                                        Chat chat = dc.getDocument().toObject(Chat.class);
-                                        DocumentReference docRef = db.collection("users").document(chat.getSenderId());
-                                        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                                if (task.isSuccessful()) {
-                                                    DocumentSnapshot document = task.getResult();
-                                                    if (document.exists()) {
-                                                        Usuario user = document.toObject(Usuario.class);
-                                                        NotificationCompat.Builder builder = new NotificationCompat.Builder(AitelActivity.this, NOTIFCHANNEL);
-                                                        builder.setSmallIcon(R.mipmap.ic_launcher_round);
-                                                        builder.setContentTitle("AITELChat");
-                                                        builder.setContentText(user.getNombre() + ": " + chat.getMsg());
-                                                        builder.setPriority(NotificationCompat.PRIORITY_HIGH);
-                                                        notificationManager.notify(CHATNUMBER, builder.build());
-                                                        CHATNUMBER++;
-                                                    }
-                                                } else {
-                                                    Log.d("debugeo", "get failed with ", task.getException());
-                                                }
-                                            }
-                                        });
-                                        Log.d(TAG, "New msg: " + dc.getDocument().getData());
-                                        break;
-                                    case MODIFIED:
-                                        Log.d(TAG, "Modified msg: " + dc.getDocument().getData());
-                                        break;
-                                    case REMOVED:
-                                        Log.d(TAG, "Removed msg: " + dc.getDocument().getData());
-                                        break;
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                Log.d(TAG, "on complete");
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    Log.d(TAG, "obtuvo un usuario");
+                                    Usuario usuario = document.toObject(Usuario.class);
+                                    if (!currentUser.getUid().equals(usuario.getUid()))
+                                        lista.add(usuario);
+                                    Log.d(TAG, document.getId() + " => " + document.getData());
                                 }
+                                RecyclerView mRecyclerView = findViewById(R.id.recyclerusersAitel);
+                                UsersRecycler uAdapter = new UsersRecycler(lista, AitelActivity.this, R.id.fragmentAitel);
+                                mRecyclerView.setAdapter(uAdapter);
+                                mRecyclerView.setLayoutManager(new LinearLayoutManager(AitelActivity.this));
                             }
                         }
                     });
+
+            UsuarioManager.setChatNotif(currentUser, AitelActivity.this);
+
+            TextView textViewn = findViewById(R.id.textprofileAITEL);
+
+            textViewn.setText("Bienvenid@, " + currentUser.getDisplayName());
+            UsuarioManager.setChatNotif(currentUser, AitelActivity.this);
         } else {
             startActivity(new Intent(AitelActivity.this, MainActivity.class));
             finish();
@@ -136,6 +119,108 @@ public class AitelActivity extends AppCompatActivity {
 
     }
 
+    public void tomarFoto(Usuario usuario, ProgressBar pb) {
+
+        OTROUSUARIO = usuario;
+        PBCHATIMAGE = pb;
+        int permission = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.CAMERA);
+        Log.d(TAG, "ENTRA TOMA FOTO");
+        if (permission == PackageManager.PERMISSION_GRANTED) {
+            Log.d(TAG, "TENIA PERMISO FOTO");
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            startActivityForResult(intent, GETIMAGE);
+        } else {
+            Log.d(TAG, "NO TENIA PERMISO FOTO");
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, CAMERA_PERMISSION);
+        }
+    }
+//    public void guardarFotoTomada(Bitmap bitmap){
+//        device.setNombreFoto("prueba.jpg");
+//        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+//            ContentValues contentValues = new ContentValues();
+//            contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, device.getNombreFoto());
+//            contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpg");
+//            contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES);
+//            uri  = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
+//
+//            try(OutputStream outputStream = getContentResolver().openOutputStream(uri)){
+//                bitmap.compress(Bitmap.CompressFormat.JPEG,100,outputStream);
+//            }catch (IOException e){
+//                e.printStackTrace();
+//            }
+//
+//        }
+//    }
+
+
+    public void downloadIMAGE(String rutaFire,String nombrelocal){
+        RUTAFIRE = rutaFire;
+        IMAGELOCAL = nombrelocal;
+        int permission = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        Log.d(TAG, "ENTRA DESCARGA");
+        if (permission == PackageManager.PERMISSION_GRANTED) {
+            Log.d(TAG, "TENIA PERMISO DESCARGA");
+            StorageReference fileRef = FirebaseStorage.getInstance().getReference().child(rutaFire);
+            File directorio = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+            File localFile = new File(directorio,nombrelocal) ;
+            fileRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                    Log.d(TAG,"EXITO DESCARGA");
+                    Toast.makeText(AitelActivity.this, "Archivo Descargado", Toast.LENGTH_SHORT).show();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    e.printStackTrace();
+                    Log.d(TAG,"ERROR DESCARGA");
+                    Toast.makeText(AitelActivity.this, "No se pudo descargar", Toast.LENGTH_LONG).show();
+                }
+            }).addOnProgressListener(new OnProgressListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onProgress(@NonNull FileDownloadTask.TaskSnapshot snapshot) {
+                    Log.d(TAG,"CARGANDO");
+                }
+            });
+        } else {
+            Log.d(TAG, "NO TENIA PERMISO DESCARGA");
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, Download_PERMISSION);
+        }
+
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        if (grantResults.length > 0 &&
+                grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            if (requestCode == CAMERA_PERMISSION) {
+                Log.d(TAG, "DIO PERMISO FOTO");
+                tomarFoto(OTROUSUARIO,PBCHATIMAGE);
+            } else if (requestCode == Download_PERMISSION) {
+                Log.d(TAG, "DIO PERMISO descarga");
+                downloadIMAGE(RUTAFIRE, IMAGELOCAL);
+            }
+        }
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case GETIMAGE:
+                if (resultCode == RESULT_OK) {
+                    PBCHATIMAGE.setVisibility(View.VISIBLE);
+                    UsuarioManager.saveImageStorage(AitelActivity.this, data, OTROUSUARIO);
+                }
+                break;
+        }
+    }
 
     public void setFloatingButton() {
         // Register all the FABs with their IDs

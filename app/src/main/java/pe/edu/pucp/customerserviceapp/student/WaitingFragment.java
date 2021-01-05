@@ -1,32 +1,21 @@
-package pe.edu.pucp.customerserviceapp.client;
+package pe.edu.pucp.customerserviceapp.student;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import pe.edu.pucp.customerserviceapp.MainActivity;
 import pe.edu.pucp.customerserviceapp.R;
-import pe.edu.pucp.customerserviceapp.admin.AdminActivity;
-import pe.edu.pucp.customerserviceapp.clases.Usuario;
-import pe.edu.pucp.customerserviceapp.employee.EmployeeActivity;
 
 /**
  * A simple {@link Fragment} subclass.

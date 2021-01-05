@@ -16,9 +16,12 @@ public class Chat implements Serializable, Comparable<Chat> {
     private String msg;
     private Date fecha;
     private Boolean attachedImg;
+    private Boolean imageloaded=false;
+    private String chatid = "";
     private String senderId;
     private String receiverId;
     private Boolean readbyreceiver = false;
+
 
     public Chat(String msg, Date fecha, Boolean attachedImg, String senderId, String receiverId) {
         this.msg = msg;
@@ -26,21 +29,11 @@ public class Chat implements Serializable, Comparable<Chat> {
         this.attachedImg = attachedImg;
         this.senderId = senderId;
         this.receiverId = receiverId;
-
     }
 
     public Chat() {
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public String getFechaStr() {
-        LocalDateTime lc = fecha.toInstant()
-                .atZone(ZoneId.systemDefault()).toLocalDateTime();
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss 'el' yyyy-MM-dd");
-        DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT);
-        return lc.format(formatter);
-    }
-    
     public String getMsg() {
         return msg;
     }
@@ -89,6 +82,21 @@ public class Chat implements Serializable, Comparable<Chat> {
         this.readbyreceiver = readbyreceiver;
     }
 
+    public String getChatid() {
+        return chatid;
+    }
+
+    public void setChatid(String chatid) {
+        this.chatid = chatid;
+    }
+
+    public Boolean getImageloaded() {
+        return imageloaded;
+    }
+
+    public void setImageloaded(Boolean imageloaded) {
+        this.imageloaded = imageloaded;
+    }
 
     @Override
     public int compareTo(Chat chat) {

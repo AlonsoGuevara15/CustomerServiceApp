@@ -19,18 +19,30 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.ArrayList;
 
+import pe.edu.pucp.customerserviceapp.aitel.AitelActivity;
 import pe.edu.pucp.customerserviceapp.clases.Chat;
+import pe.edu.pucp.customerserviceapp.clases.Usuario;
+import pe.edu.pucp.customerserviceapp.student.StudentActivity;
 
 public class ChatRecycler extends RecyclerView.Adapter<ChatRecycler.MessageViewHolder> {
 
     private static ArrayList<Chat> lista;
     private static final String TAG = "debugeo";
+    private Context contexto;
+    private String nombreotro;
 
-    public ChatRecycler(ArrayList<Chat> l) {
+    public ChatRecycler(ArrayList<Chat> l, Context contexto, String nombreotro) {
         lista = l;
+        this.contexto = contexto;
+        this.nombreotro = nombreotro;
     }
+
     public ChatRecycler() {
     }
 
@@ -46,29 +58,71 @@ public class ChatRecycler extends RecyclerView.Adapter<ChatRecycler.MessageViewH
     @Override
     public void onBindViewHolder(@NonNull MessageViewHolder holder, int position) {
         String msg = lista.get(position).getMsg();
+        String chatid = lista.get(position).getChatid();
 
 
-        String date = lista.get(position).getFechaStr();
+
+        LocalDateTime lc = lista.get(position).getFecha().toInstant()
+                .atZone(ZoneId.systemDefault()).toLocalDateTime();
+        DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT);
+        String date = lc.format(formatter);
         Boolean isImg = lista.get(position).getAttachedImg();
 
-       FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
-            if (lista.get(position).getSenderId().equals(currentUser.getUid())){
+            View.OnClickListener onClickListener = new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (contexto instanceof StudentActivity) {
+                        StudentActivity act = (StudentActivity) contexto;
+                        act.downloadIMAGE("imageschat/"+chatid+".jpg",nombreotro+"_"+chatid + ".jpg");
+                    } else if (contexto instanceof AitelActivity) {
+                        AitelActivity act = (AitelActivity) contexto;
+                        act.downloadIMAGE("imageschat/"+chatid+".jpg",nombreotro+"_"+chatid + ".jpg");
+                    }
+
+                }
+            };
+
+            if (lista.get(position).getSenderId().equals(currentUser.getUid())) {
                 holder.msgIN.setVisibility(View.GONE);
-                holder.dateIN.setVisibility(View.GONE);
-                holder.msgOUT.setVisibility(View.VISIBLE);
+                holder.imageIN.setVisibility(View.GONE);
+
+
+                if (isImg) {
+                    holder.imageOUT.setVisibility(View.VISIBLE);
+                    StorageReference imageRef = FirebaseStorage.getInstance().getReference().child("imageschat/" + chatid + ".jpg");
+                    Glide.with(contexto).load(imageRef).into(holder.imageOUT);
+
+                    holder.msgOUT.setVisibility(View.GONE);
+                    holder.imageOUT.setOnClickListener(onClickListener);
+                } else {
+                    holder.msgOUT.setVisibility(View.VISIBLE);
+                    holder.msgOUT.setText(msg);
+                    holder.imageOUT.setVisibility(View.GONE);
+
+                }
                 holder.dateOUT.setVisibility(View.VISIBLE);
-
-                holder.msgOUT.setText(msg);
+                holder.dateIN.setVisibility(View.GONE);
                 holder.dateOUT.setText(date);
-
-            }else{
-                holder.msgIN.setVisibility(View.VISIBLE);
-                holder.dateIN.setVisibility(View.VISIBLE);
+            } else {
                 holder.msgOUT.setVisibility(View.GONE);
-                holder.dateOUT.setVisibility(View.GONE);
+                holder.imageOUT.setVisibility(View.GONE);
 
-                holder.msgIN.setText(msg);
+                if (isImg) {
+                    holder.imageIN.setVisibility(View.VISIBLE);
+                    StorageReference imageRef = FirebaseStorage.getInstance().getReference().child("imageschat/" + chatid + ".jpg");
+                    Glide.with(contexto).load(imageRef).into(holder.imageIN);
+                    holder.msgIN.setVisibility(View.GONE);
+                    holder.imageIN.setOnClickListener(onClickListener);
+                } else {
+                    holder.msgIN.setVisibility(View.VISIBLE);
+                    holder.msgIN.setText(msg);
+                    holder.imageIN.setVisibility(View.GONE);
+                }
+
+                holder.dateIN.setVisibility(View.VISIBLE);
+                holder.dateOUT.setVisibility(View.GONE);
                 holder.dateIN.setText(date);
 
             }
@@ -89,8 +143,8 @@ public class ChatRecycler extends RecyclerView.Adapter<ChatRecycler.MessageViewH
         public TextView msgOUT;
         public TextView dateIN;
         public TextView dateOUT;
-        public ImageView icon;
-        public View button;
+        public ImageView imageIN;
+        public ImageView imageOUT;
 
 
         public MessageViewHolder(@NonNull View itemView) {
@@ -99,6 +153,8 @@ public class ChatRecycler extends RecyclerView.Adapter<ChatRecycler.MessageViewH
             this.msgOUT = itemView.findViewById(R.id.textMessageOUT);
             this.dateIN = itemView.findViewById(R.id.fechaIN);
             this.dateOUT = itemView.findViewById(R.id.fechaOUT);
+            this.imageIN = itemView.findViewById(R.id.imageIN);
+            this.imageOUT = itemView.findViewById(R.id.imageOUT);
 //            this.icon = itemView.findViewById(R.id.iconArchivo);
 //            this.button = itemView.findViewById(R.id.floatingActionButton);
 

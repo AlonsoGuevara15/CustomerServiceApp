@@ -5,6 +5,7 @@
     android:id="@+id/frameLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     tools:context=".ChatFragment">
 
 
@@ -38,9 +39,20 @@
             android:importantForAutofill="no"
             android:inputType=""
             android:padding="15dp"
-            app:layout_constraintEnd_toStartOf="@+id/send_message"
+            app:layout_constraintEnd_toStartOf="@+id/send_image"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/send_image"
+            android:layout_width="50dp"
+            android:layout_height="0dp"
+            android:src="@drawable/ic_image"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/send_message"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
 
         <ImageButton
             android:id="@+id/send_message"
@@ -49,18 +61,31 @@
             android:src="@drawable/ic_send"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/receiverName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_marginStart="8dp"
         android:text="HOLAAA"
         android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/progressBarchat"
+        app:layout_constraintStart_toEndOf="@+id/progressBarchat"
+        app:layout_constraintTop_toTopOf="@+id/progressBarchat"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ProgressBar
+        android:id="@+id/progressBarchat"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="33dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="16dp"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.019"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
