@@ -3,6 +3,7 @@ package pe.edu.pucp.customerserviceapp.clases;
 import android.app.Activity;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -35,6 +36,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
@@ -149,7 +152,7 @@ public class UsuarioManager {
                                                         fm.beginTransaction().remove(cFragmentOld).commit();
                                                     }
                                                     act.findViewById(fragmentid).setVisibility(View.VISIBLE);
-                                                    ChatFragment cFragment = ChatFragment.newInstance(otheruser, lista,imageButton,fragmentid);
+                                                    ChatFragment cFragment = ChatFragment.newInstance(otheruser, lista, imageButton, fragmentid);
                                                     fm.beginTransaction()
                                                             .add(fragmentid, cFragment)
                                                             .addToBackStack(null)
@@ -246,7 +249,7 @@ public class UsuarioManager {
         }
     }
 
-    public static void setChatNotif(FirebaseUser currentUser, Activity activity) {
+    public static ListenerRegistration setChatNotif(FirebaseUser currentUser, Activity activity) {
         NotificationManager notificationManager =
                 (NotificationManager) activity.getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -258,100 +261,109 @@ public class UsuarioManager {
                     NotificationManager.IMPORTANCE_HIGH
             );
             notificationChannel.setDescription("Notificaciones de nuevo mensaje recibido");
+            notificationChannel.enableVibration(true);
             notificationManager.createNotificationChannel(notificationChannel);
         }
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("chats")
-                .whereEqualTo("receiverId", currentUser.getUid()).whereEqualTo("readbyreceiver", false).whereEqualTo("chatid","")
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable QuerySnapshot snapshots, @Nullable FirebaseFirestoreException e) {
-                        if (e != null) {
-                            Log.w(TAG, "listen:error", e);
-                            return;
-                        }
+        Query query = db.collection("chats").whereEqualTo("receiverId", currentUser.getUid()).whereEqualTo("readbyreceiver", false).whereEqualTo("chatid", "");
 
-                        for (DocumentChange dc : snapshots.getDocumentChanges()) {
-                            switch (dc.getType()) {
-                                case ADDED:
-                                    Chat chat = dc.getDocument().toObject(Chat.class);
+            Log.d(TAG,"lr es null");
+            ListenerRegistration lr = query.addSnapshotListener(new EventListener<QuerySnapshot>() {
+                @Override
+                public void onEvent(@Nullable QuerySnapshot snapshots, @Nullable FirebaseFirestoreException e) {
+                    if (e != null) {
+                        Log.w(TAG, "listen:error", e);
+                        return;
+                    }
 
-                                    DocumentReference docRef = db.collection("users").document(chat.getSenderId());
-                                    docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                        @RequiresApi(api = Build.VERSION_CODES.O)
-                                        @Override
-                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                            if (task.isSuccessful()) {
-                                                DocumentSnapshot document = task.getResult();
-                                                if (document.exists()) {
+                    for (DocumentChange dc : snapshots.getDocumentChanges()) {
+                        switch (dc.getType()) {
+                            case ADDED:
+                                Chat chat = dc.getDocument().toObject(Chat.class);
 
-
-                                                    Usuario user = document.toObject(Usuario.class);
-                                                    NotificationCompat.Builder builder = new NotificationCompat.Builder(activity, NOTIFCHANNEL);
-                                                    builder.setSmallIcon(R.mipmap.ic_launcher_round);
-                                                    builder.setContentTitle(user.getNombre());
-                                                    builder.setPriority(NotificationCompat.PRIORITY_HIGH);
-
-                                                    if (!chat.getAttachedImg()) {
-                                                        Log.d(TAG, "ADD notif text msg: " + dc.getDocument().getData());
-
-                                                        LocalDateTime lc = chat.getFecha().toInstant()
-                                                                .atZone(ZoneId.systemDefault()).toLocalDateTime();
-                                                        DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT);
-                                                        String date = lc.format(formatter);
-
-                                                        builder.setContentText(date + ": " + chat.getMsg());
-
-                                                        notificationManager.notify(CHATNUMBER, builder.build());
-                                                        CHATNUMBER++;
-                                                    } else {
-                                                        dc.getDocument().getReference().addSnapshotListener(new EventListener<DocumentSnapshot>() {
-                                                            @Override
-                                                            public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException error) {
-                                                                if (error != null) {
-                                                                    Log.w(TAG, "listen:error", error);
-                                                                    return;
-                                                                }
-                                                                if (snapshot != null && snapshot.exists()) {
-                                                                    Chat chatchanged = snapshot.toObject(Chat.class);
-                                                                    if (chatchanged.getImageloaded() && !chatchanged.getReadbyreceiver() && !chatchanged.getChatid().equals("")) {
-                                                                        Log.d(TAG, "Modified notif img msg: " + dc.getDocument().getData());
+                                DocumentReference docRef = db.collection("users").document(chat.getSenderId());
+                                docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @RequiresApi(api = Build.VERSION_CODES.O)
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            DocumentSnapshot document = task.getResult();
+                                            if (document.exists()) {
 
 
-                                                                        LocalDateTime lc = chatchanged.getFecha().toInstant()
-                                                                                .atZone(ZoneId.systemDefault()).toLocalDateTime();
-                                                                        DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT);
-                                                                        String date2 = lc.format(formatter);
+                                                Usuario user = document.toObject(Usuario.class);
+                                                NotificationCompat.Builder builder = new NotificationCompat.Builder(activity, NOTIFCHANNEL);
+                                                builder.setSmallIcon(R.mipmap.ic_launcher_round);
+                                                builder.setContentTitle(user.getNombre());
+                                                builder.setPriority(NotificationCompat.PRIORITY_HIGH);
+                                                Intent intent = new Intent(activity, activity.getClass());
+                                                intent.putExtra("usuarionotif", user);
+                                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);;
+                                                PendingIntent pendingIntent = PendingIntent.getActivity(activity, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                                                builder.setContentIntent(pendingIntent);
+                                                if (!chat.getAttachedImg()) {
+                                                    Log.d(TAG, "ADD notif text msg: " + dc.getDocument().getData());
 
-                                                                        builder.setContentText(date2 + ": " + "*Foto*");
+                                                    LocalDateTime lc = chat.getFecha().toInstant()
+                                                            .atZone(ZoneId.systemDefault()).toLocalDateTime();
+                                                    DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT);
+                                                    String date = lc.format(formatter);
 
-                                                                        notificationManager.notify(CHATNUMBER, builder.build());
-                                                                        CHATNUMBER++;
-                                                                    }
+                                                    builder.setContentText(date + ": " + chat.getMsg());
+
+                                                    notificationManager.notify(CHATNUMBER, builder.build());
+                                                    CHATNUMBER++;
+                                                } else {
+                                                    dc.getDocument().getReference().addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                                                        @Override
+                                                        public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException error) {
+                                                            if (error != null) {
+                                                                Log.w(TAG, "listen:error", error);
+                                                                return;
+                                                            }
+                                                            if (snapshot != null && snapshot.exists()) {
+                                                                Chat chatchanged = snapshot.toObject(Chat.class);
+                                                                if (chatchanged.getImageloaded() && !chatchanged.getReadbyreceiver() && !chatchanged.getChatid().equals("")) {
+                                                                    Log.d(TAG, "Modified notif img msg: " + dc.getDocument().getData());
+
+
+                                                                    LocalDateTime lc = chatchanged.getFecha().toInstant()
+                                                                            .atZone(ZoneId.systemDefault()).toLocalDateTime();
+                                                                    DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT);
+                                                                    String date2 = lc.format(formatter);
+
+                                                                    builder.setContentText(date2 + ": " + "*Foto*");
+
+                                                                    notificationManager.notify(CHATNUMBER, builder.build());
+                                                                    CHATNUMBER++;
                                                                 }
                                                             }
-                                                        });
-                                                    }
+                                                        }
+                                                    });
                                                 }
-                                            } else {
-                                                Log.d(TAG, "get failed with ", task.getException());
                                             }
+                                        } else {
+                                            Log.d(TAG, "get failed with ", task.getException());
                                         }
-                                    });
+                                    }
+                                });
 
 
-                                    break;
-                                case MODIFIED:
-                                    Log.d(TAG, "Modified msg: " + dc.getDocument().getData());
+                                break;
+                            case MODIFIED:
+                                Log.d(TAG, "Modified msg: " + dc.getDocument().getData());
 
-                                    break;
-                                case REMOVED:
-                                    Log.d(TAG, "Removed msg: " + dc.getDocument().getData());
-                                    break;
-                            }
+                                break;
+                            case REMOVED:
+                                Log.d(TAG, "Removed msg: " + dc.getDocument().getData());
+                                break;
                         }
                     }
-                });
+                }
+            });
+            return lr;
+
     }
+
 
 }

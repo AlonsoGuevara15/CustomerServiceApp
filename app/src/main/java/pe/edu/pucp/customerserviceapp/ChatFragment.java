@@ -80,12 +80,12 @@ public class ChatFragment extends Fragment {
     }
 
 
-    public static ChatFragment newInstance(Usuario o, ArrayList<Chat> l, ImageButton ib,int fid) {
+    public static ChatFragment newInstance(Usuario o, ArrayList<Chat> l, ImageButton ib, int fid) {
         ChatFragment fragment = new ChatFragment();
         other = o;
         lista = l;
         imageButton = ib;
-        fragmentid=fid;
+        fragmentid = fid;
         return fragment;
     }
 
@@ -246,7 +246,7 @@ public class ChatFragment extends Fragment {
 
             nombre.setText(other.getNombre());
             mRecyclerView = view.findViewById(R.id.chatRecycler);
-            crAdapter = new ChatRecycler(lista, getContext(),other.getNombre());
+            crAdapter = new ChatRecycler(lista, getContext(), other.getNombre());
             mRecyclerView.setAdapter(crAdapter);
             mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             refreshRV();
@@ -285,10 +285,10 @@ public class ChatFragment extends Fragment {
                 public void onClick(View view) {
                     if (getActivity() instanceof StudentActivity) {
                         StudentActivity act = (StudentActivity) getActivity();
-                        act.tomarFoto(other,progressBar);
+                        act.tomarFoto(other, progressBar);
                     } else if (getActivity() instanceof AitelActivity) {
                         AitelActivity act = (AitelActivity) getActivity();
-                        act.tomarFoto(other,progressBar);
+                        act.tomarFoto(other, progressBar);
                     }
 
 
@@ -296,8 +296,10 @@ public class ChatFragment extends Fragment {
             });
 
         }
+        if (imageButton != null ){
+            imageButton.setEnabled(true);
+        }
 
-        imageButton.setEnabled(true);
         return view;
     }
 
