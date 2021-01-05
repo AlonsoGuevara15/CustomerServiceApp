@@ -10,7 +10,7 @@
         android:id="@+id/fechaIN"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:text="@string/textview"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -23,7 +23,7 @@
         android:id="@+id/fechaOUT"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:text="@string/textview"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -56,7 +56,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_max="300dp"
             app:layout_constraintHeight_max="300dp"
-
+            android:contentDescription="@string/todo"
             tools:srcCompat="@tools:sample/avatars" />
 
         <ImageView
@@ -73,6 +73,7 @@
             app:layout_constraintVertical_bias="0"
             app:layout_constraintWidth_max="300dp"
             app:layout_constraintHeight_max="300dp"
+            android:contentDescription="@string/todo"
             tools:srcCompat="@tools:sample/avatars" />
 
         <TextView
@@ -81,8 +82,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/shape_msg_out"
             android:padding="8dp"
-            android:text="hi man,hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?v
-             how are you?"
+            android:text="@string/hi_man_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_v_how_are_you"
             android:textColor="#ffffff"
 
 
@@ -101,7 +101,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/shape_msg_in"
             android:padding="8dp"
-            android:text="hi man, how are you?"
+            android:text="@string/hi_man_how_are_you"
             android:textColor="#ffffff"
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintVertical_bias="0"

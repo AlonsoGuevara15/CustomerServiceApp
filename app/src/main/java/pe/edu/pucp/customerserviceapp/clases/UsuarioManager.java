@@ -53,7 +53,6 @@ import java.util.Date;
 import pe.edu.pucp.customerserviceapp.ChatFragment;
 import pe.edu.pucp.customerserviceapp.MainActivity;
 import pe.edu.pucp.customerserviceapp.R;
-import pe.edu.pucp.customerserviceapp.admin.AdminActivity;
 import pe.edu.pucp.customerserviceapp.student.StudentActivity;
 import pe.edu.pucp.customerserviceapp.aitel.AitelActivity;
 
@@ -87,7 +86,7 @@ public class UsuarioManager {
                                 activity.startActivity(new Intent(activity, AitelActivity.class));
                                 break;
                             case ROLE_ADMIN:
-                                activity.startActivity(new Intent(activity, AdminActivity.class));
+                                activity.startActivity(new Intent(activity, AitelActivity.class));
                                 break;
                             default:
                                 activity.startActivity(new Intent(activity, StudentActivity.class));

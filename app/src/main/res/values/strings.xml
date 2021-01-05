@@ -8,4 +8,18 @@
         Cancelar solicitud
     </string>
     <string name="escriba_un_mensaje_aqu">Escriba un mensaje aquí...</string>
+    <string name="puedes_comunicarte_con_los_siguientes_usuarios">Puedes comunicarte con los siguientes usuarios:</string>
+    <string name="estudiante">-Estudiante</string>
+    <string name="bienvenido_cliente">Bienvenido Cliente</string>
+    <string name="cerrar_sesi_n">Cerrar Sesión</string>
+    <string name="todo">TODO</string>
+    <string name="holaaa">HOLAAA</string>
+    <string name="aitel">-AITEL</string>
+    <string name="iniciar_sesi_n">Iniciar Sesión</string>
+    <string name="textview">TextView</string>
+    <string name="hi_man_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_hi_man_how_are_you_v_how_are_you">hi man,hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?hi man, how are you?v how are you?</string>
+    <string name="hi_man_how_are_you">hi man, how are you?</string>
+    <string name="fresh">Fresh</string>
+    <string name="correo">Correo</string>
+    <string name="rol">Rol</string>
 </resources>

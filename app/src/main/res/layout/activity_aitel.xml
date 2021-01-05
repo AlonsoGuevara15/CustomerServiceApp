@@ -25,7 +25,7 @@
         android:layout_width="276dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="Puedes comunicarte con los siguientes usuarios:"
+        android:text="@string/puedes_comunicarte_con_los_siguientes_usuarios"
         android:textColor="#D6D6D6"
         android:textSize="13sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -38,7 +38,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#CBD8D8D8"
-        android:text="-AITEL"
+        android:text="@string/aitel"
         android:textColor="#1D0A39"
         app:layout_constraintEnd_toEndOf="@+id/textprofileAITEL"
         app:layout_constraintHorizontal_bias="0"
@@ -51,7 +51,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginTop="24dp"
-        android:text="Bienvenido Cliente"
+        android:text="@string/bienvenido_cliente"
         android:textColor="#F8F8F8"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -98,7 +98,8 @@
         app:backgroundTint="#D8B0DF"
         app:fabSize="mini"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/todo" />
 
 
     <!--Floating action button for add person-->
@@ -114,7 +115,8 @@
         app:layout_constraintEnd_toEndOf="@+id/info"
         app:layout_constraintStart_toStartOf="@+id/info"
         app:layout_constraintTop_toBottomOf="@+id/info"
-        app:srcCompat="@drawable/ic_logout" />
+        app:srcCompat="@drawable/ic_logout"
+        android:contentDescription="@string/todo" />
 
     <!--Action name text for the add person button-->
     <!--Make sure that you are constraining this Text
@@ -125,7 +127,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:background="#FFFFFF"
-        android:text="Cerrar Sesión"
+        android:text="@string/cerrar_sesi_n"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/logout"
         app:layout_constraintEnd_toStartOf="@+id/logout"
